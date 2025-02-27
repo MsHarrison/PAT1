@@ -1,9 +1,8 @@
-from random import randint
-
 """ Guessing Game - Ardle 
-    A CLI-based word guess game
+    A CLI-based word guessing game
     Ms Harrison
     February 2025 """
+from random import randint
 
 print("ARDLE WORD GUESS GAME")
 print("---------------------")
@@ -13,39 +12,6 @@ gameplay = True
 
 def instructions():
     print("Put gameplay instructions here...")
-
-def playgame():
-    wordlist = open("words.txt", "r")
-    words = []
-    for each in wordlist:
-        words.append(each)
-    randword = randint(1,100)
-    print(words[randword])
-    wordguess = []
-    numGuesses = 0
-    keepPlaying = True
-    while keepPlaying:
-        letterGuess = input("Enter a letter: ")
-        position = 0
-        for each in randword:
-            if letterGuess == each:
-                wordguess[position] = letterGuess
-            position += 1
-        numGuesses += 1
-        if numGuesses == 6:
-            print("That was your last guess")
-            keepPlaying = False
-            print("Results are in!")
-            print("---------------")
-            print(wordguess)
-        elif wordguess == randword.split():
-            print("Yay! You guessed the word!")
-            print("Results are in!")
-            print("---------------")
-            print(wordguess)
-        
-        
-
 
 
 while gameplay:
@@ -57,14 +23,37 @@ while gameplay:
     if selection.lower() == "i":
         instructions()
     elif selection.lower() == "n":
-        playgame()
+        wordlist = open("words.txt", "r")
+        words = []
+        for each in wordlist:
+            words.append(each)
+        randnum = randint(0,len(words) - 1)
+        randomword = words[randnum]
+        print(randomword)
+        wordguess = ["_", "_", "_","_","_"]
+        randWordAsList = list(randomword.strip())
+        numGuesses = 0
+        keepPlaying = True
+        while keepPlaying:
+            print(wordguess)
+            print()
+            letterGuess = input("Enter a letter: ")
+            position = 0
+            for each in randWordAsList:
+                if letterGuess == each:
+                    wordguess[position] = letterGuess
+                position += 1
+            numGuesses += 1
+            if numGuesses == 10 and wordguess != randWordAsList:
+                print("That was your last guess")
+                print(f'The secret word was {randomword}!')
+                print("Better luck next time!")
+                keepPlaying = False
+            elif wordguess == randWordAsList:
+                print("Yay! You guessed the word!")
+                keepPlaying = False
     elif selection.lower() == "q":
         print("Thanks for playing!")
         gameplay = False
     else:
         print("That's not a valid option.")
-
-
-
-
-
